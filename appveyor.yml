@@ -1,38 +1,41 @@
 version: '{branch}.{build}'
 branches:
   only:
-  - php7
+  - php72_appveyor
 
 environment:
+  PHP_SDK_BINARY_TOOLS_VER: php-sdk-2.0.10
   matrix:
-#  - ARTIFACT_NAME: cairo_vc14_php7_%Platform%_ts.zip
-#    OUTDIR: Release_TS
-#    V8_ASSETS: cairo-1.14.6-%Platform%.zip
-  - ARTIFACT_NAME: cairo_vc14_php7_%Platform%_nts.zip
+  - ARTIFACT_NAME: cairo_vc15_php7_%Platform%_ts.zip
+    OUTDIR: Release_TS
+    V8_ASSETS: cairo-1.14.6-%Platform%-vc15.zip
+  - ARTIFACT_NAME: cairo_vc15_php7_%Platform%_nts.zip
     OUTDIR: Release
     CONFIGURE_EXTRA: --disable-zts
-    V8_ASSETS: cairo-1.14.6-%Platform%.zip
+    V8_ASSETS: cairo-1.14.6-%Platform%-vc15.zip
 
-  PHP_VERSION: 7.1.8
+  PHP_VERSION: 7.2.0RC2
   PHP_SDK: c:\projects\php-sdk
 
-os: Windows Server 2012
-clone_folder: c:\projects\php-sdk\cairo-ci\vc14\%Platform%\php\ext\cairo
+image: Visual Studio 2017
+clone_folder: c:\projects\php-sdk\cairo-ci\vc15\%Platform%\php\ext\cairo
 
 platform:
   - x64
-  # - x86
+  - x86
 
 install:
+  - cmd: cinst wget
   - cd
   - for /R %%f in (*.phpt) do perl -pi.bak -e "undef $/; s/--EXTENSIONS--\neos_datastructures\n//gi" %%f
   - del *.phpt.bak /s > nul
+  - wget https://github.com/OSTC/php-sdk-binary-tools/archive/%PHP_SDK_BINARY_TOOLS_VER%.zip --no-check-certificate -q -O php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER%.zip
+  - 7z x -y php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER%.zip -oC:\projects
+  - xcopy C:\projects\php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER% %PHP_SDK%\ /s > nul
   - cd %PHP_SDK%
-  - curl -fSL -o php-sdk-binary-tools-20110915.zip "http://windows.php.net/downloads/php-sdk/php-sdk-binary-tools-20110915.zip"
-  - 7z.exe x php-sdk-binary-tools-20110915.zip
-  - call bin\phpsdk_setvars.bat
-  - call bin\phpsdk_buildtree.bat cairo-ci
-  - cd cairo-ci\vc14\%Platform%
+  - call %PHP_SDK%\bin\phpsdk_setvars.bat
+  - call %PHP_SDK%\bin\phpsdk_buildtree.bat cairo-ci
+  - cd cairo-ci\vc15\%Platform%
   - if not exist php mkdir php
   - if not exist php\ext mkdir php\ext
   - cd php\ext
@@ -43,11 +46,10 @@ install:
   - curl -fSL -o %V8_ASSETS% "https://phpdev.toolsforresearch.com/%V8_ASSETS%"
   - 7z.exe x %V8_ASSETS%
   - cd ..
-  - curl -fSL -o "php-%PHP_VERSION%.tar.gz" "http://us1.php.net/distributions/php-%PHP_VERSION%.tar.gz"
-  - ren php php-%PHP_VERSION%
-  - 7z.exe x php-%PHP_VERSION%.tar.gz -y
-  - 7z.exe x php-%PHP_VERSION%.tar -y | find /v "Extracting"
-  - cd php-%PHP_VERSION%
+  - curl -fSL -o "php-%PHP_VERSION%-src.zip" "http://windows.php.net/downloads/qa/php-%PHP_VERSION%-src.zip"
+  - ren php php-%PHP_VERSION%-src
+  - 7z.exe x php-%PHP_VERSION%-src.zip | find /v "Extracting"
+  - cd php-%PHP_VERSION%-src
   - cd
   - mkdir %OUTDIR%
   - mkdir \projects\%OUTDIR%
@@ -63,7 +65,7 @@ build_script:
         $env:VCVARS_PLATFORM="amd64"
         $env:ENV_PLATFORM="x64"
       }
-  - call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" %VCVARS_PLATFORM%
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %ENV_PLATFORM%
   - echo Building PHP [%PHP_VERSION%]
   - '%PHP_SDK%\bin\phpsdk_setvars'
   - buildconf
@@ -82,7 +84,7 @@ build_script:
   - dir
   - dir ext
 test_script:
-- cmd: php.exe /projects/php-sdk/cairo-ci/vc14/%Platform%/php-%PHP_VERSION%/run-tests.php /projects/php-sdk/cairo-ci/vc14/%Platform%/php-%PHP_VERSION%/ext/cairo -q --show-diff
+- cmd: php.exe /projects/php-sdk/cairo-ci/vc15/%Platform%/php-%PHP_VERSION%-src/run-tests.php /projects/php-sdk/cairo-ci/vc15/%Platform%/php-%PHP_VERSION%-src/ext/cairo -q --show-diff
 
 on_finish:
   - 7z a -r %ARTIFACT_NAME% *
