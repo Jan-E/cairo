@@ -861,17 +861,6 @@ zend_class_entry* php_cairo_get_surface_ce(cairo_surface_t *surface)
                 type = ce_cairo_imagesurface;
                 break;
 
-#ifdef CAIRO_HAS_PDF_SURFACE
-            case CAIRO_SURFACE_TYPE_PDF:
-                type = ce_cairo_pdfsurface;
-                break;
-#endif
-#ifdef CAIRO_HAS_SVG_SURFACE
-            case CAIRO_SURFACE_TYPE_SVG:
-                type = ce_cairo_svgsurface;
-                break;
-#endif
-
 #ifdef CAIRO_HAS_PS_SURFACE
             case CAIRO_SURFACE_TYPE_PS:
                 type = ce_cairo_pssurface;
