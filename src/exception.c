@@ -84,7 +84,11 @@ PHP_MINIT_FUNCTION(cairo_exception)
 	zend_class_entry ce, status_ce;
 
 	INIT_NS_CLASS_ENTRY(ce,  CAIRO_NAMESPACE, "Exception", NULL);
+#if PHP_VERSION_ID < 70000
 	ce_cairo_exception = zend_register_internal_class_ex(&ce, zend_exception_get_default());
+#else
+	ce_cairo_exception = zend_register_internal_class_ex(&ce, zend_ce_exception);
+#endif
 
 	INIT_NS_CLASS_ENTRY(status_ce,  CAIRO_NAMESPACE, "Status", cairo_status_methods);
 	ce_cairo_status = zend_register_internal_class_ex(&status_ce, php_eos_datastructures_get_enum_ce());

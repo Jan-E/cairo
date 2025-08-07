@@ -46,10 +46,10 @@
         if (Z_TYPE_P(tmp) != IS_LONG) \
             zend_error(E_WARNING, "cairo_win32_font_face_create() expects key '"#name"' to be of type long"); \
         else \
-            lfont.##name = Z_LVAL_P(tmp); \
+            lfont.name = Z_LVAL_P(tmp); \
     } \
     else \
-        lfont.##name = defaultval;
+        lfont.name = defaultval;
         
 /** Same as before but casts return to BYTE */
 #define LFONT_FIND_LONGB(name, defaultval) \
@@ -57,20 +57,20 @@
         if (Z_TYPE_P(tmp) != IS_LONG) \
             zend_error(E_WARNING, "cairo_win32_font_face_create() expects key '"#name"' to be of type long"); \
         else \
-            lfont.##name = (BYTE)Z_LVAL_P(tmp); \
+            lfont.name = (BYTE)Z_LVAL_P(tmp); \
     } \
     else \
-        lfont.##name = (BYTE)defaultval;
+        lfont.name = (BYTE)defaultval;
             
 #define LFONT_FIND_BOOL(name, defaultval) \
     if ((tmp = zend_hash_str_find(Z_ARRVAL_P(font_options), #name, sizeof(#name)-1)) != NULL) { \
         if (Z_TYPE_P(tmp) != IS_TRUE && Z_TYPE_P(tmp) != IS_FALSE) \
             zend_error(E_WARNING, "cairo_win32_font_face_create() expects key '"#name"' to be of type bool"); \
         else \
-            lfont.##name = Z_TYPE_P(tmp) == IS_TRUE ? 1 : 0; \
+            lfont.name = Z_TYPE_P(tmp) == IS_TRUE ? 1 : 0; \
     } \
     else \
-        lfont.##name = defaultval;
+        lfont.name = defaultval;
 
 zend_class_entry *ce_cairo_win32font;
 /** These classes are containers for constants defined in WinGdi.h, etc. */
@@ -186,27 +186,27 @@ PHP_MINIT_FUNCTION(cairo_win32_font)
     INIT_NS_CLASS_ENTRY(ce, CAIRO_NAMESPACE, ZEND_NS_NAME("FontFace", "Win32"), cairo_win32_font_methods);
     ce_cairo_win32font = zend_register_internal_class_ex(&ce, ce_cairo_fontface);
     
-    #define CAIRO_WIN32_DECLARE_ENUM(ce, const_name, const_value) \
+	#define CAIRO_WIN32_DECLARE_ENUM(ce, const_name, const_value, const_name_p) \
         zend_declare_class_constant_long(ce_cairo_win32font##ce, #const_name, sizeof(#const_name)-1, (long)const_value);
     
     INIT_NS_CLASS_ENTRY(ce_cairowin32fontweight, CAIRO_NAMESPACE, ZEND_NS_NAME("FontFace", ZEND_NS_NAME("Win32", "FontWeight")), NULL);
     ce_cairo_win32fontweight = zend_register_internal_class_ex(&ce_cairowin32fontweight, php_eos_datastructures_get_enum_ce());
     ce_cairo_win32fontweight->ce_flags |= ZEND_ACC_FINAL;
-    CAIRO_WIN32_DECLARE_ENUM(weight, "NORMAL", "CAIRO_WIN32_FONT_WEIGHT_NORMAL");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "DONTCARE", "CAIRO_WIN32_FONT_WEIGHT_DONTCARE");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "THIN", "CAIRO_WIN32_FONT_WEIGHT_THIN");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "EXTRALIGHT", "CAIRO_WIN32_FONT_WEIGHT_EXTRALIGHT");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "ULTRALIGHT", "CAIRO_WIN32_FONT_WEIGHT_ULTRALIGHT");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "LIGHT", "CAIRO_WIN32_FONT_WEIGHT_LIGHT");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "REGULAR", "CAIRO_WIN32_FONT_WEIGHT_REGULAR");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "MEDIUM", "CAIRO_WIN32_FONT_WEIGHT_MEDIUM");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "SEMIBOLD", "CAIRO_WIN32_FONT_WEIGHT_SEMIBOLD");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "DEMIBOLD", "CAIRO_WIN32_FONT_WEIGHT_DEMIBOLD");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "BOLD", "CAIRO_WIN32_FONT_WEIGHT_BOLD");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "EXTRABOLD", "CAIRO_WIN32_FONT_WEIGHT_EXTRABOLD");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "ULTRABOLD", "CAIRO_WIN32_FONT_WEIGHT_ULTRABOLD");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "HEAVY", "CAIRO_WIN32_FONT_WEIGHT_HEAVY");
-    CAIRO_WIN32_DECLARE_ENUM(weight, "BLACK", "CAIRO_WIN32_FONT_WEIGHT_BLACK");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "NORMAL", FW_NORMAL, "CAIRO_WIN32_FONT_WEIGHT_NORMAL");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "DONTCARE", FW_DONTCARE, "CAIRO_WIN32_FONT_WEIGHT_DONTCARE");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "THIN", FW_THIN, "CAIRO_WIN32_FONT_WEIGHT_THIN");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "EXTRALIGHT", FW_EXTRALIGHT, "CAIRO_WIN32_FONT_WEIGHT_EXTRALIGHT");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "ULTRALIGHT", FW_ULTRALIGHT, "CAIRO_WIN32_FONT_WEIGHT_ULTRALIGHT");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "LIGHT", FW_LIGHT, "CAIRO_WIN32_FONT_WEIGHT_LIGHT");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "REGULAR", FW_REGULAR, "CAIRO_WIN32_FONT_WEIGHT_REGULAR");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "MEDIUM", FW_MEDIUM, "CAIRO_WIN32_FONT_WEIGHT_MEDIUM");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "SEMIBOLD", FW_SEMIBOLD, "CAIRO_WIN32_FONT_WEIGHT_SEMIBOLD");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "DEMIBOLD", FW_DEMIBOLD, "CAIRO_WIN32_FONT_WEIGHT_DEMIBOLD");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "BOLD", FW_BOLD, "CAIRO_WIN32_FONT_WEIGHT_BOLD");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "EXTRABOLD", FW_EXTRABOLD, "CAIRO_WIN32_FONT_WEIGHT_EXTRABOLD");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "ULTRABOLD", FW_ULTRABOLD, "CAIRO_WIN32_FONT_WEIGHT_ULTRABOLD");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "HEAVY", FW_HEAVY, "CAIRO_WIN32_FONT_WEIGHT_HEAVY");
+    CAIRO_WIN32_DECLARE_ENUM(weight, "BLACK", FW_BLACK, "CAIRO_WIN32_FONT_WEIGHT_BLACK");
 
     INIT_NS_CLASS_ENTRY(ce_cairowin32fontcharset, CAIRO_NAMESPACE, ZEND_NS_NAME("FontFace", ZEND_NS_NAME("Win32", "FontCharset")), NULL);
     ce_cairo_win32fontcharset = zend_register_internal_class_ex(&ce_cairowin32fontcharset, php_eos_datastructures_get_enum_ce());
