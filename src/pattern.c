@@ -193,9 +193,9 @@ PHP_METHOD(CairoPattern, setExtend)
 	zend_long extend = 0;
 	zval *extend_enum;
         
-        if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+        if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &extend_enum, ce_cairo_extend) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &extend) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &extend) == FAILURE) {
                     return;
                 } else {
 			if(!php_eos_datastructures_check_value(ce_cairo_extend, extend)) {
@@ -249,9 +249,9 @@ PHP_METHOD(CairoPattern, setFilter)
 	zend_long filter = 0;
 	zval *filter_enum;
         
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &filter_enum, ce_cairo_filter) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &filter) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &filter) == FAILURE) {
 			return;
 		} else {
 			if(!php_eos_datastructures_check_value(ce_cairo_filter, filter)) {

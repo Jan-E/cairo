@@ -248,7 +248,7 @@ PHP_METHOD(CairoFontOptions, setAntialias)
 	cairo_font_options_object *font_options_object;
 	zval *antialias_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &antialias_enum, ce_cairo_antialias) == FAILURE) {
 		if (zend_parse_parameters(ZEND_NUM_ARGS(), "|l", &antialias) == FAILURE) {
 			return;
@@ -303,7 +303,7 @@ PHP_METHOD(CairoFontOptions, setSubpixelOrder)
 	cairo_font_options_object *font_options_object;
 	zval *subpixel_order_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &subpixel_order_enum, ce_cairo_subpixelorder) == FAILURE) {
 		if (zend_parse_parameters(ZEND_NUM_ARGS(), "|l", &subpixel_order) == FAILURE) {
 			return;
@@ -356,7 +356,7 @@ PHP_METHOD(CairoFontOptions, setHintStyle)
 	cairo_font_options_object *font_options_object;
 	zval *hint_style_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &hint_style_enum, ce_cairo_hintstyle) == FAILURE) {
 		if (zend_parse_parameters(ZEND_NUM_ARGS(), "|l", &hint_style) == FAILURE) {
 			return;
@@ -409,7 +409,7 @@ PHP_METHOD(CairoFontOptions, setHintMetrics)
 	cairo_font_options_object *font_options_object;
         zval *hint_metrics_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &hint_metrics_enum, ce_cairo_hintmetrics) == FAILURE) {
 		if (zend_parse_parameters(ZEND_NUM_ARGS(), "|l", &hint_metrics) == FAILURE) {
 			return;

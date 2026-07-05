@@ -625,9 +625,9 @@ PHP_METHOD(CairoContext, setAntialias)
         zend_long antialias = CAIRO_ANTIALIAS_DEFAULT;
         zval *antialias_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &antialias_enum, ce_cairo_antialias) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|l", &antialias) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "|l", &antialias) == FAILURE) {
 			return;
 		} else {
 			if(!php_eos_datastructures_check_value(ce_cairo_antialias, antialias)) {
@@ -781,9 +781,9 @@ PHP_METHOD(CairoContext, setFillRule)
 	zend_long fillrule = 0;
 	zval *fillrule_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &fillrule_enum, ce_cairo_fillrule) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &fillrule) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &fillrule) == FAILURE) {
 			return;
 		} else {
 			if(!php_eos_datastructures_check_value(ce_cairo_fillrule, fillrule)) {
@@ -834,9 +834,9 @@ PHP_METHOD(CairoContext, setLineCap)
 	zend_long linecap = 0;
 	zval *linecap_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &linecap_enum, ce_cairo_linecap) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &linecap) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &linecap) == FAILURE) {
 			return;
 		} else {
 			if(!php_eos_datastructures_check_value(ce_cairo_linecap, linecap)) {
@@ -887,9 +887,9 @@ PHP_METHOD(CairoContext, setLineJoin)
 	zend_long linejoin = 0;
 	zval *linejoin_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &linejoin_enum, ce_cairo_linejoin) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &linejoin) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &linejoin) == FAILURE) {
 			return;
 		} else {
 			if(!php_eos_datastructures_check_value(ce_cairo_linejoin, linejoin)) {
@@ -1025,9 +1025,9 @@ PHP_METHOD(CairoContext, setOperator)
 	zend_long operator = 0;
 	zval *operator_enum;
 
-	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET|ZEND_PARSE_PARAMS_THROW,
+	if (zend_parse_parameters_ex(ZEND_PARSE_PARAMS_QUIET,
 		ZEND_NUM_ARGS(), "O", &operator_enum, ce_cairo_operator) == FAILURE) {
-		if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &operator) == FAILURE) {
+		if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &operator) == FAILURE) {
 			return;
 		} else {
 			if(!php_eos_datastructures_check_value(ce_cairo_operator, operator)) {
